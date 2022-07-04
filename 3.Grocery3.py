@@ -5,7 +5,7 @@ class User:
     def __init__(self) -> None:
         self.l=[]
         self.d={}
-        self.c=[]
+        self.c={}
         self.total=0.0
         self.pay=0.0
         self.final=0.0
@@ -35,14 +35,11 @@ class User:
         self.pay=self.total+int(0.18*self.total)
         print("Amount Payable is ",self.pay)
         cc=input("Enter Coupon Code if applicable else S: ")
-        if(cc=='S'):
-            self.final=self.pay
-        elif(self.c.get(cc) and self.pay>200):
-            self.final=self.pay-self.c[cc]
-        elif(self.c.get(cc) and self.pay>200):
-            self.final=self.pay-self.c[cc]
-        else:
-            self.final=self.pay
+        self.final=self.pay
+        if(cc!='S'):
+            for val in self.c:
+                if(val==cc and self.pay>=self.c[cc]):
+                    self.final=self.pay-self.c[cc]
         print("Final Amount is ",self.final)
         self.cash=float(input("Enter cash recieved: "))        
 
@@ -72,12 +69,6 @@ class User:
         print(f"{'Change:':<10}{(self.cash-self.final):>30}")
         print("~~~~~~ THANK YOU ~~~~~~".center(40))
         print("\n\n")
-            
-'''       
-s1=User()
-s1.loadData()
-s1.inputItem()
-s1.reciept()'''
 
 class Admin:
     def __init__(self) -> None:
@@ -139,7 +130,7 @@ class Admin:
         self.cp.update({cpc:float(cpp)})
         print("Coupon code successfuly updated")
         file = open("CouponCode.txt", "wb")
-        pickle.dump(self.dd, file)
+        pickle.dump(self.cp, file)
         file.close()
 
     def update(self):
