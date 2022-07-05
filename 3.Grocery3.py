@@ -1,6 +1,5 @@
 
 import pickle
-import math
 class User:
     def __init__(self) -> None:
         self.l=[]
